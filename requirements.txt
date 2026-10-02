@@ -1,0 +1,52 @@
+# ============================================================
+# E-Commerce Medallion Data Platform — Python Dependencies
+# ============================================================
+#
+# This project runs on Databricks using PySpark and Delta Lake.
+# The requirements are split into two sections:
+#
+#   1. Databricks Runtime (this project)  — packages already bundled in DBR;
+#      no pip install needed on the cluster. Listed for reference only.
+#
+#   2. Generic Lakehouse (any platform)   — install these to replicate the
+#      medallion pipeline on any Spark-based Lakehouse (EMR, Synapse,
+#      open-source Spark, local dev, CI/CD).
+#
+# Install with:  pip install -r requirements.txt
+#
+# -----------------------------------------------------------
+# 1. Databricks Runtime (this project — pre-installed)
+# -----------------------------------------------------------
+# Databricks Runtime 15.4 LTS includes the following at compatible versions.
+# No action needed — these are listed for documentation only.
+#
+#   pyspark            (bundled with DBR)
+#   delta-spark        (bundled with DBR)
+#   databricks-sdk     (bundled with DBR 14.0+)
+#
+# -----------------------------------------------------------
+# 2. Generic Lakehouse (any Spark 3.5+ environment)
+# -----------------------------------------------------------
+# Install these to run the medallion notebooks outside Databricks.
+# Pin versions to match your Spark runtime where possible.
+
+# Core Spark engine — SparkSession, DataFrame API, StructType, SQL functions
+pyspark==3.5.0
+
+# Delta Lake — read/write Delta tables, ACID transactions, time travel
+# Required for all Bronze/Silver/Gold table operations
+delta-spark==3.2.0
+
+# Databricks SDK — workspace, catalog, schema, and job management
+# Required only if running the setup notebook or orchestration scripts locally
+databricks-sdk==0.29.0
+
+# -----------------------------------------------------------
+# Optional — useful for local testing and CI/CD
+# -----------------------------------------------------------
+
+# PyTest — unit tests for transformation logic
+# pytest==8.0.0
+
+# Pandas — local data inspection during development
+# pandas==2.2.0
