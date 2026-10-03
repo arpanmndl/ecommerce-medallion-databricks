@@ -19,6 +19,8 @@ The dataset is sourced from the [CodeBasics Databricks Mini Course](https://code
 
 Bronze → Silver → Gold
 
+![E-Commerce Data Platform Architecture](architecture/E-Commerce%20Data%20Platform%20Architecture.png)
+
 ```
 Raw CSVs → Bronze (StringType) → Silver (Cleaned & Typed) → Gold (Enriched) → Denormalised View → BI
 ```
@@ -28,6 +30,10 @@ Raw CSVs → Bronze (StringType) → Silver (Cleaned & Typed) → Gold (Enriched
 | Bronze | Raw ingestion with explicit schemas + lineage columns | 6 tables (`brz_*`) |
 | Silver | Cleaned, typed, deduplicated, standardized | 6 tables (`slv_*`) |
 | Gold | Enriched with joins, derived columns, BI-ready | 4 tables (`gld_*`) + 1 view |
+
+## Data Flow Diagram
+
+![E-Commerce Analytics Data Flow Pipeline](architecture/E-Commerce%20Analytics%20Data%20Flow%20Pipeline.png)
 
 ## Data Pipeline
 
