@@ -14,6 +14,7 @@ The dataset is sourced from the [CodeBasics Databricks Mini Course](https://code
 * SQL
 * Delta Lake
 * Medallion Architecture
+* AI/BI Dashboards
 
 ## Architecture
 
@@ -62,6 +63,9 @@ ecommerce-medallion-databricks/
 │   └── README.md                  — Dataset source and download instructions
 ├── docs/
 │   └── project_documentation.md   — Full project documentation (15 sections)
+├── dashboard/
+│   ├── Sales Insights.lvdash.json              — AI/BI Dashboard definition file
+│   └── Sales Insights 2026-10-03 08_27.pdf      — Dashboard screenshot (PDF export)
 ├── notebooks/
 │   ├── 1_setup/
 │   │   └── New Notebook 2026-09-17 12:43:06.ipynb   — Create catalog + schemas
@@ -162,6 +166,53 @@ CREATE OR REPLACE VIEW ecommerce.gold.fact_transactions_denorm AS
 
 **Zero data loss**: 183,378 fact rows preserved from Bronze through Gold. All 4 Gold tables and 1 view are ready for BI dashboards and Databricks Genie.
 
+## Sales Insights Dashboard
+
+An interactive AI/BI Dashboard built on the denormalised Gold view (`fact_transactions_denorm`) providing business-ready sales analytics with KPIs, trend analysis, and product breakdowns.
+
+[Dashboard Screenshot (PDF)](dashboard/Sales%20Insights%202026-10-03%2008_27.pdf)
+
+### Published Dashboard
+
+[View Live Dashboard](https://dbc-72edc3ff-139d.cloud.databricks.com/dashboardsv3/01f1befd784d169f89bd5867c401359e/published?o=7474657952996939)
+
+### Key Metrics (KPIs)
+
+| Metric | Value |
+| --- | --- |
+| Total Revenue | $1.81B |
+| Total Orders | 104,756 |
+| Total Quantity Sold | 245,635 |
+| Avg Order Value | $17,324 |
+
+### Dashboard Widgets
+
+| Widget | Type | Description |
+| --- | --- | --- |
+| Total Revenue | Counter | Net revenue across all transactions |
+| Total Orders | Counter | Distinct order count |
+| Total Quantity Sold | Counter | Total items sold |
+| Avg Order Value | Counter | Revenue per order |
+| Monthly Revenue Trend | Line Chart | Revenue over time by month |
+| Revenue by Channel | Bar Chart | Revenue split by Website vs Application |
+| Top Products by Revenue | Table | Product SKUs ranked by revenue and quantity |
+| Revenue by Category | Bar Chart | Revenue by product category |
+| Revenue by Day of Week | Bar Chart | Revenue distribution across weekdays |
+| Revenue by Hour of Day | Bar Chart | Revenue by hour (0-23) |
+| Coupon Usage Distribution | Pie Chart | Orders with vs without coupons (35% coupon usage) |
+| Top Brands by Revenue | Table | Brands ranked by revenue and order count |
+| Quarterly Revenue by Year | Grouped Bar Chart | Quarterly revenue comparison across years |
+
+### Global Filters
+
+* **Date Range** — Filter by transaction date
+* **Sales Channel** — Filter by Website / Application
+* **Product Category** — Filter by product category
+
+### Dataset
+
+The dashboard uses a local metric view built on `ecommerce.gold.fact_transactions_denorm` with 15 dimensions and 11 measures, including revenue, order count, quantity, discounts, and customer metrics. Materialization is enabled for faster published dashboard loads.
+
 ## How to Run
 
 ### Prerequisites
@@ -198,6 +249,7 @@ pip install -r requirements.txt
 | [`architecture/data-flow.md`](architecture/data-flow.md) | Step-by-step data flow with ASCII pipeline diagram |
 | [`architecture/data-dictionary.md`](architecture/data-dictionary.md) | Complete column-level documentation for all 17 tables |
 | [`docs/project_documentation.md`](docs/project_documentation.md) | Project summary — scope, objectives, processing flow, data quality |
+| [`dashboard/`](dashboard/) | Sales Insights AI/BI Dashboard — KPIs, trends, product & channel analysis |
 | [`data/README.md`](data/README.md) | Dataset source and download instructions |
 
 ## License
