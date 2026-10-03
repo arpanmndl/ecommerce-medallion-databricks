@@ -171,9 +171,54 @@ Column renames for BI readability: `dt`→`transaction_date`, `order_ts`→`tran
 
 ## 9. Analytics & BI Consumption
 
-The project treats the Gold layer as the analytics source. Databricks Genie can be configured on Gold data to surface suggested business questions and generate queries for interactive analysis. The dashboard path uses a denormalized Gold view (`fact_transactions_denorm`) that combines fact and dimension attributes and adds an `hour_of_day` field derived from `transaction_ts`.
+The project treats the Gold layer as the analytics source. Databricks Genie can be configured on Gold data to surface suggested business questions and generate queries for interactive analysis. A **Databricks AI/BI Dashboard** ("Sales Insights") is built directly on the denormalized Gold view (`fact_transactions_denorm`) that combines fact and dimension attributes and adds an `hour_of_day` field derived from `transaction_ts`.
 
 > **Analytics principle:** Do not point business dashboards or Genie at the raw or Bronze layers; Gold is the analytics-ready layer.
+
+### Sales Insights Dashboard
+
+An interactive AI/BI Dashboard providing business-ready sales analytics with KPIs, trend analysis, and product breakdowns. Built on a local metric view over `fact_transactions_denorm` with 15 dimensions and 11 measures. Materialization is enabled for faster published dashboard loads.
+
+#### Key Metrics (KPIs)
+
+| Metric | Value |
+| --- | --- |
+| Total Revenue | $1.81B |
+| Total Orders | 104,756 |
+| Total Quantity Sold | 245,635 |
+| Avg Order Value | $17,324 |
+
+#### Dashboard Widgets
+
+| Widget | Type | Description |
+| --- | --- | --- |
+| Total Revenue | Counter | Net revenue across all transactions |
+| Total Orders | Counter | Distinct order count |
+| Total Quantity Sold | Counter | Total items sold |
+| Avg Order Value | Counter | Revenue per order |
+| Monthly Revenue Trend | Line Chart | Revenue over time by month |
+| Revenue by Channel | Bar Chart | Revenue split by Website vs Application |
+| Top Products by Revenue | Table | Product SKUs ranked by revenue and quantity |
+| Revenue by Category | Bar Chart | Revenue by product category |
+| Revenue by Day of Week | Bar Chart | Revenue distribution across weekdays |
+| Revenue by Hour of Day | Bar Chart | Revenue by hour (0-23) |
+| Coupon Usage Distribution | Pie Chart | Orders with vs without coupons (35% coupon usage) |
+| Top Brands by Revenue | Table | Brands ranked by revenue and order count |
+| Quarterly Revenue by Year | Grouped Bar Chart | Quarterly revenue comparison across years |
+
+#### Global Filters
+
+* **Date Range** — Filter by transaction date
+* **Sales Channel** — Filter by Website / Application
+* **Product Category** — Filter by product category
+
+#### Dashboard Screenshot
+
+![Sales Insights Dashboard](../dashboard/Sales%20Insights%202026-10-03%2008_27.png)
+
+#### Published Dashboard
+
+[View Live Dashboard](https://dbc-72edc3ff-139d.cloud.databricks.com/dashboardsv3/01f1befd784d169f89bd5867c401359e/published?o=7474657952996939)
 
 ### Gold Layer Tables
 
@@ -233,13 +278,22 @@ The project separates the one-time historical backfill from recurring daily proc
 ```
 ecommerce-medallion-databricks/
 ├── architecture/
-│   ├── architecture.md          — Detailed architecture description (12 sections)
+│   ├── architecture.md          — Detailed architecture description (13 sections)
 │   ├── data-flow.md             — Step-by-step data flow with ASCII diagram
-│   └── data-dictionary.md       — Complete column-level documentation for all 17 tables
+│   ├── data-dictionary.md       — Complete column-level documentation for all 17 tables
+│   ├── E-Commerce Data Platform Architecture.png
+│   └── E-Commerce Analytics Data Flow Pipeline.png
+├── dashboard/
+│   ├── Sales Insights.lvdash.json  — AI/BI Dashboard definition file
+│   └── Sales Insights 2026-10-03 08_27.png — Dashboard screenshot
+├── data/
+│   └── README.md                — Dataset source and download instructions
 ├── docs/
 │   └── project_documentation.md — This file
 ├── notebooks/
 │   └── (notebook copies for version control)
+├── requirements.txt
+├── .gitignore
 └── README.md
 ```
 
@@ -293,7 +347,7 @@ project_ecommerce/
 | Dimensions | Bronze, Silver, and Gold processing | 5 tables: brands, category, customers, date, products |
 | Fact table | Bronze, Silver, and Gold processing | 1 table: order items (183,378 rows) |
 | Analytics | Databricks Genie | Gold layer is the analytics source |
-| Dashboard | Denormalized Gold view + Databricks dashboard | View joins fact + date + product dimensions |
+| Dashboard | AI/BI Dashboard on denormalized Gold view | 13 widgets, 3 global filters, 4 KPIs ($1.81B revenue, 104,756 orders) |
 | Incremental processing | Databricks Jobs, tasks, schedules, and triggers | Separate dimension and fact jobs |
 
 > **Core outcome:** A repeatable path from raw source files to governed, analytics-ready Delta data, with orchestration for recurring processing.

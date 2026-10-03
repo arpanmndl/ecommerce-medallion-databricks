@@ -367,3 +367,26 @@ Denormalised view joining the fact table with date and product dimensions. All f
 | Gold | `gld_dim_date` | Table | 92 | 12 |
 | Gold | `gld_fact_order_items` | Table | 183,378 | 22 |
 | Gold | `fact_transactions_denorm` | View | 183,378 | 37 |
+
+---
+
+## Dashboard Consumption Layer
+
+The `fact_transactions_denorm` view is consumed directly by a **Databricks AI/BI Dashboard** ("Sales Insights") with no additional ETL. The dashboard provides 13 widgets and 3 global filters built on a local metric view with 15 dimensions and 11 measures.
+
+### Dashboard KPIs
+
+| Metric | Value |
+| --- | --- |
+| Total Revenue | $1.81B |
+| Total Orders | 104,756 |
+| Total Quantity Sold | 245,635 |
+| Avg Order Value | $17,324 |
+
+### Dashboard Screenshot
+
+![Sales Insights Dashboard](../dashboard/Sales%20Insights%202026-10-03%2008_27.png)
+
+### Published Dashboard
+
+[View Live Dashboard](https://dbc-72edc3ff-139d.cloud.databricks.com/dashboardsv3/01f1befd784d169f89bd5867c401359e/published?o=7474657952996939)

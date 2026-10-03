@@ -143,6 +143,57 @@ Also derives `hour_of_day` from `transaction_ts` for time-of-day analysis.
 
 ---
 
+## Step 8: BI Dashboard & Analytics (`dashboard/`)
+
+The denormalised Gold view feeds a **Databricks AI/BI Dashboard** ("Sales Insights") built directly on `fact_transactions_denorm`. No additional tables or ETL are needed — the dashboard queries the view at render time.
+
+### Dashboard KPIs
+
+| Metric | Value |
+| --- | --- |
+| Total Revenue | $1.81B |
+| Total Orders | 104,756 |
+| Total Quantity Sold | 245,635 |
+| Avg Order Value | $17,324 |
+
+### Dashboard Widgets
+
+| Widget | Type | Description |
+| --- | --- | --- |
+| Total Revenue | Counter | Net revenue across all transactions |
+| Total Orders | Counter | Distinct order count |
+| Total Quantity Sold | Counter | Total items sold |
+| Avg Order Value | Counter | Revenue per order |
+| Monthly Revenue Trend | Line Chart | Revenue over time by month |
+| Revenue by Channel | Bar Chart | Revenue split by Website vs Application |
+| Top Products by Revenue | Table | Product SKUs ranked by revenue and quantity |
+| Revenue by Category | Bar Chart | Revenue by product category |
+| Revenue by Day of Week | Bar Chart | Revenue distribution across weekdays |
+| Revenue by Hour of Day | Bar Chart | Revenue by hour (0-23) |
+| Coupon Usage Distribution | Pie Chart | Orders with vs without coupons (35% coupon usage) |
+| Top Brands by Revenue | Table | Brands ranked by revenue and order count |
+| Quarterly Revenue by Year | Grouped Bar Chart | Quarterly revenue comparison across years |
+
+### Global Filters
+
+* **Date Range** — Filter by transaction date
+* **Sales Channel** — Filter by Website / Application
+* **Product Category** — Filter by product category
+
+### Dataset Configuration
+
+The dashboard uses a local metric view built on `ecommerce.gold.fact_transactions_denorm` with 15 dimensions and 11 measures, including revenue, order count, quantity, discounts, and customer metrics. Materialization is enabled for faster published dashboard loads.
+
+### Dashboard Screenshot
+
+![Sales Insights Dashboard](../dashboard/Sales%20Insights%202026-10-03%2008_27.png)
+
+### Published Dashboard
+
+[View Live Dashboard](https://dbc-72edc3ff-139d.cloud.databricks.com/dashboardsv3/01f1befd784d169f89bd5867c401359e/published?o=7474657952996939)
+
+---
+
 ## Complete Data Flow Diagram
 
 ```
@@ -183,7 +234,17 @@ Also derives `hour_of_day` from `transaction_ts` for time-of-day analysis.
                   │              │
                   └──────────► gold.fact_transactions_denorm (VIEW)
                                  183,378 rows
-                              Ready for BI Dashboards
+                                      │
+                                       ▼
+                          ┌───────────────────────┐
+                          │  Sales Insights        │
+                          │  AI/BI Dashboard        │
+                          │  (13 widgets, 3 filters)│
+                          └───────────────────────┘
+                                       │
+                          KPIs: $1.81B revenue
+                          104,756 orders
+                          245,635 items sold
 ```
 
 ---

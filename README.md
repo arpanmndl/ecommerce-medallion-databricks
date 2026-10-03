@@ -65,7 +65,7 @@ ecommerce-medallion-databricks/
 │   └── project_documentation.md   — Full project documentation (15 sections)
 ├── dashboard/
 │   ├── Sales Insights.lvdash.json              — AI/BI Dashboard definition file
-│   └── Sales Insights 2026-10-03 08_27.pdf      — Dashboard screenshot (PDF export)
+│   └── Sales Insights 2026-10-03 08_27.png      — Dashboard screenshot
 ├── notebooks/
 │   ├── 1_setup/
 │   │   └── New Notebook 2026-09-17 12:43:06.ipynb   — Create catalog + schemas
@@ -170,7 +170,7 @@ CREATE OR REPLACE VIEW ecommerce.gold.fact_transactions_denorm AS
 
 An interactive AI/BI Dashboard built on the denormalised Gold view (`fact_transactions_denorm`) providing business-ready sales analytics with KPIs, trend analysis, and product breakdowns.
 
-[Dashboard Screenshot (PDF)](dashboard/Sales%20Insights%202026-10-03%2008_27.pdf)
+![Sales Insights Dashboard](dashboard/Sales%20Insights%202026-10-03%2008_27.png)
 
 ### Published Dashboard
 
